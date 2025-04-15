@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>FPE Test Page</title>
-    <link rel="stylesheet" href="fpe.css" />
+    <link rel="stylesheet" href="src/fpe.css" />
     <link rel="stylesheet" href="https://use.typekit.net/vbh7vdi.css" />
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   </head>
@@ -67,100 +67,5 @@
       <div class="fpe-rmk-label">RMK</div>
       <div class="fpe-rmk-box" id="fpe-rmk-box"></div>
     </div>
-
-    <script>
-      async function copyFPEToClipboard() {
-        const element = document.querySelector(".fpe-container");
-        try {
-          const canvas = await html2canvas(element, { backgroundColor: null });
-          canvas.toBlob(async (blob) => {
-            try {
-              await navigator.clipboard.write([
-                new ClipboardItem({ "image/png": blob }),
-              ]);
-              alert("Screenshot copied to clipboard!");
-            } catch (err) {
-              alert("Failed to copy to clipboard: " + err);
-            }
-          });
-        } catch (err) {
-          console.error("Error capturing screenshot:", err);
-          alert("Screenshot failed: " + err.message);
-        }
-      }
-
-      function populateFPE() {
-        const str = document.getElementById("input-string").value.trim();
-
-        // Split on multiple spaces
-        const parts = str.split(/\s{2,}/);
-        if (parts.length < 6) {
-          alert("Input does not contain enough fields.");
-          return;
-        }
-
-        // Extract fields
-        const aid = parts[0];
-        const typeEq = parts[1];
-        const bcn = parts[2]; // Updated index from 3 to 2
-        const depDest = parts[3].split(" - "); // Updated index from 4 to 3
-        const alt = parts[4]; // Updated index from 5 to 4
-        const rte = parts.slice(5).join(" "); // in case route contains double spaces
-
-        // Parse type and equipment
-        const cleanedTypeEq = typeEq.replace(/^[A-Z]\//, ""); // strip leading "H/" or similar
-        const [typ, eq] = cleanedTypeEq.split("/");
-
-        // Random CID
-        const cid = Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;
-
-        // Random SPD: 80-450, rounded to nearest 5, zero-padded
-        const rawSpd = Math.floor(Math.random() * (450 - 80 + 1) + 80);
-        const spd = String(Math.round(rawSpd / 5) * 5).padStart(3, "0");
-        document.getElementById("fpe-spd-box").textContent = spd;
-
-        // Random name
-        const names = [
-          "Alex",
-          "Bailey",
-          "Charlie",
-          "Dakota",
-          "Emery",
-          "Finley",
-          "Gray",
-          "Harper",
-          "Indigo",
-          "Jordan",
-          "Joss",
-          "Logan",
-          "Morgan",
-          "Nova",
-          "Oakley",
-          "Parker",
-          "Quinn",
-          "Riley",
-          "Skyler",
-          "Taylor",
-        ];
-        const name = names[Math.floor(Math.random() * names.length)];
-
-        // Assign values
-        document.getElementById("fpe-aid-box").textContent = aid;
-        document.getElementById("fpe-typ-box").textContent = typ || "";
-        document.getElementById("fpe-eq-box").textContent = eq || "";
-        document.getElementById("fpe-bcn-box").textContent = bcn;
-        document.getElementById("fpe-dep-box").textContent = depDest[0] || "";
-        document.getElementById("fpe-dest-box").textContent = depDest[1] || "";
-        document.getElementById("fpe-spd-box").textContent = spd;
-        document.getElementById("fpe-alt-box").textContent = alt;
-        document.getElementById("fpe-rte-box").textContent = rte;
-
-        // Auto-generated fields
-        document.getElementById("fpe-cruiseid-box").textContent = cid;
-        document.querySelector(
-          ".fpe-title"
-        ).textContent = `${aid} - ${name} (${cid})`;
-      }
-    </script>
   </body>
 </html>
