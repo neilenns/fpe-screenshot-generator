@@ -1,22 +1,15 @@
+import { copyFpeToClipboard } from "./copyFpeToClipboard";
+import flightPlansData from "./flightPlans.json" assert { type: "json" };
+
 interface FlightPlan {
   id: number;
   name: string;
   raw: string;
+  isValid: boolean;
 }
 
-// Example flight plans (could come from a server or static JSON)
-const flightPlans: FlightPlan[] = [
-  {
-    id: 1,
-    name: "Dallas",
-    raw: "AAL700  B738/L  1675  6057 KPDX - KDFW  350  WHAMY4 IMB J15 JNC ALS PNH MDANO VKTRY2",
-  },
-  {
-    id: 2,
-    name: "Denver",
-    raw: "UAL123  H/B77W/L  1234  7412 KSFO - KDEN  370  TRUKN2 DVC J28 HBU",
-  },
-];
+// Replace the hardcoded flightPlans array with the imported data
+const flightPlans: FlightPlan[] = flightPlansData;
 
 function getElementSafe(id: string): HTMLElement {
   const el = document.getElementById(id);
@@ -39,9 +32,15 @@ function getRandomBCN(): string {
   return String(value).padStart(4, "0");
 }
 
+function populateInputString(raw: string): void {
+  const inputString = getElementSafe("input-string");
+  inputString.textContent = raw;
+}
+
 function populateFPE(raw: string): void {
   const parts = raw.trim().split(/\s{2,}/);
-  if (parts.length < 7) {
+
+  if (parts.length < 6) {
     alert("Input does not contain enough fields.");
     return;
   }
@@ -49,9 +48,9 @@ function populateFPE(raw: string): void {
   const aid = parts[0];
   const typeEq = parts[1].replace(/^[A-Z]\//, "");
   const [typ, eq] = typeEq.split("/");
-  const depDest = parts[4].split(" - ");
-  const alt = parts[5];
-  const rte = parts.slice(6).join(" ");
+  const depDest = parts[3].split(" - ");
+  const alt = parts[4];
+  const rte = parts.slice(5).join(" ");
 
   const cid = Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;
   const names = [
@@ -98,7 +97,7 @@ function populateFPE(raw: string): void {
 }
 
 function renderFlightPlanList(): void {
-  const container = document.getElementById("flight-list");
+  const container = document.getElementById("flight-plan-list");
 
   if (!container) {
     return;
@@ -109,13 +108,30 @@ function renderFlightPlanList(): void {
   for (const plan of flightPlans) {
     const li = document.createElement("li");
     li.textContent = plan.name;
+
+    if (plan.isValid) {
+      const checkmark = document.createElement("span");
+      checkmark.textContent = "✔";
+      checkmark.classList.add("valid-checkmark");
+      li.appendChild(checkmark);
+    }
+
     li.onclick = () => {
+      populateInputString(plan.raw);
       populateFPE(plan.raw);
     };
+
     container.appendChild(li);
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   renderFlightPlanList();
+  const result = getElementSafe("screenshot-button");
+
+  result.addEventListener("click", () => {
+    copyFpeToClipboard().catch((err: unknown) => {
+      console.error("Error copying to clipboard: ", err);
+    });
+  });
 });
