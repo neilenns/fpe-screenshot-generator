@@ -99,8 +99,13 @@ function populateFPE(raw: string): void {
 
 function renderFlightPlanList(): void {
   const container = document.getElementById("flight-list");
-  if (!container) return;
+
+  if (!container) {
+    return;
+  }
+
   container.innerHTML = "";
+
   for (const plan of flightPlans) {
     const li = document.createElement("li");
     li.textContent = plan.name;
