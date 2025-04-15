@@ -18,6 +18,14 @@ const flightPlans: FlightPlan[] = [
   },
 ];
 
+function getElementSafe(id: string): HTMLElement {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error(`Element with id '${id}' not found`);
+  }
+  return el;
+}
+
 function getRandomBCN(): string {
   const ranges = [
     [650, 677],
@@ -25,6 +33,7 @@ function getRandomBCN(): string {
     [3430, 3477],
     [7412, 7477],
   ];
+
   const [min, max] = ranges[Math.floor(Math.random() * ranges.length)];
   const value = Math.floor(Math.random() * (max - min + 1)) + min;
   return String(value).padStart(4, "0");
@@ -73,23 +82,19 @@ function populateFPE(raw: string): void {
   const spd = String(Math.round(rawSpd / 5) * 5).padStart(3, "0");
   const bcn = getRandomBCN();
 
-  (document.getElementById("fpe-aid-box") as HTMLElement).textContent = aid;
-  (document.getElementById("fpe-typ-box") as HTMLElement).textContent =
-    typ || "";
-  (document.getElementById("fpe-eq-box") as HTMLElement).textContent = eq || "";
-  (document.getElementById("fpe-bcn-box") as HTMLElement).textContent = bcn;
-  (document.getElementById("fpe-dep-box") as HTMLElement).textContent =
-    depDest[0] || "";
-  (document.getElementById("fpe-dest-box") as HTMLElement).textContent =
-    depDest[1] || "";
-  (document.getElementById("fpe-alt-box") as HTMLElement).textContent = alt;
-  (document.getElementById("fpe-rte-box") as HTMLElement).textContent = rte;
-  (document.getElementById("fpe-cruiseid-box") as HTMLElement).textContent =
-    cid.toString();
-  (document.getElementById("fpe-spd-box") as HTMLElement).textContent = spd;
-  (
-    document.querySelector(".fpe-title") as HTMLElement
-  ).textContent = `${aid} - ${name} (${cid})`;
+  getElementSafe("fpe-aid-box").textContent = aid;
+  getElementSafe("fpe-typ-box").textContent = typ;
+  getElementSafe("fpe-eq-box").textContent = eq;
+  getElementSafe("fpe-bcn-box").textContent = bcn;
+  getElementSafe("fpe-dep-box").textContent = depDest[0];
+  getElementSafe("fpe-dest-box").textContent = depDest[1];
+  getElementSafe("fpe-alt-box").textContent = alt;
+  getElementSafe("fpe-rte-box").textContent = rte;
+  getElementSafe("fpe-cruiseid-box").textContent = cid.toString();
+  getElementSafe("fpe-spd-box").textContent = spd;
+  getElementSafe(
+    ".fpe-title"
+  ).textContent = `${aid} - ${name} (${cid.toString()})`;
 }
 
 function renderFlightPlanList(): void {
@@ -99,7 +104,9 @@ function renderFlightPlanList(): void {
   for (const plan of flightPlans) {
     const li = document.createElement("li");
     li.textContent = plan.name;
-    li.onclick = () => populateFPE(plan.raw);
+    li.onclick = () => {
+      populateFPE(plan.raw);
+    };
     container.appendChild(li);
   }
 }
