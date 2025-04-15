@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://use.typekit.net/vbh7vdi.css" />
     <link rel="stylesheet" href="src/main.css" />
     <script type="module" src="src/main.ts"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   </head>
   <body>
     <div id="app-container" class="app-container">
@@ -30,10 +29,10 @@
           ></textarea
           ><br />
           <button onclick="populateFPE()">Load</button>
-          <button onclick="copyFPEToClipboard()">Copy Screenshot</button>
+          <button id="screenshot-button">Copy Screenshot</button>
         </div>
 
-        <div class="fpe-container">
+        <div class="fpe-container" id="fpe-container">
           <!-- Title -->
           <div class="fpe-title">Test</div>
           <div class="fpe-close">&times;</div>

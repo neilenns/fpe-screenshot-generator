@@ -1,3 +1,4 @@
+import { copyFpeToClipboard } from "./copyFpeToClipboard";
 import flightPlansData from "./flightPlans.json" assert { type: "json" };
 
 interface FlightPlan {
@@ -126,4 +127,11 @@ function renderFlightPlanList(): void {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderFlightPlanList();
+  const result = getElementSafe("screenshot-button");
+
+  result.addEventListener("click", () => {
+    copyFpeToClipboard().catch((err: unknown) => {
+      console.error("Error copying to clipboard: ", err);
+    });
+  });
 });
