@@ -94,7 +94,7 @@
 
         // Split on multiple spaces
         const parts = str.split(/\s{2,}/);
-        if (parts.length < 7) {
+        if (parts.length < 6) {
           alert("Input does not contain enough fields.");
           return;
         }
@@ -102,13 +102,14 @@
         // Extract fields
         const aid = parts[0];
         const typeEq = parts[1];
-        const bcn = parts[3];
-        const depDest = parts[4].split(" - ");
-        const alt = parts[5];
-        const rte = parts.slice(6).join(" "); // in case route contains double spaces
+        const bcn = parts[2]; // Updated index from 3 to 2
+        const depDest = parts[3].split(" - "); // Updated index from 4 to 3
+        const alt = parts[4]; // Updated index from 5 to 4
+        const rte = parts.slice(5).join(" "); // in case route contains double spaces
 
         // Parse type and equipment
-        const [typ, eq] = typeEq.split("/");
+        const cleanedTypeEq = typeEq.replace(/^[A-Z]\//, ""); // strip leading "H/" or similar
+        const [typ, eq] = cleanedTypeEq.split("/");
 
         // Random CID
         const cid = Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;

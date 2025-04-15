@@ -3,9 +3,9 @@
   "configurations": [
     {
       "name": "Launch fpe.html in Edge",
-      "type": "pwa-msedge",
+      "type": "msedge",
       "request": "launch",
-      "url": "http://localhost:8000/fpe.html",
+      "url": "http://localhost:8000/index.html",
       "webRoot": "${workspaceFolder}",
       "preLaunchTask": "Start Python HTTP server"
     }
