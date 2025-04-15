@@ -1,5 +1,5 @@
 import { copyFpeToClipboard } from "./copyFpeToClipboard";
-import flightPlansData from "./flightPlans.json" assert { type: "json" };
+import flightPlansData from "@data/flightPlans.json" assert { type: "json" };
 import { FlightPlan } from "@interfaces/flightPlan";
 
 // Replace the hardcoded flightPlans array with the imported data

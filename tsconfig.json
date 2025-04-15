@@ -23,7 +23,8 @@
 
     /* Paths */
     "paths": {
-      "@interfaces/*": ["./src/interfaces/*"]
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@data/*": ["./src/data/*"]
     }
   },
   "include": ["src"]
