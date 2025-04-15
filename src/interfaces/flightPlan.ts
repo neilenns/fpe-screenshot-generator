@@ -1,6 +1,20 @@
+import { craft } from "./craft";
+
 export interface FlightPlan {
-  id: number;
-  name: string;
-  raw: string;
-  isValid: boolean;
+  id?: number;
+  pilotName?: string;
+  aid: string;
+  cid?: number;
+  typ: string;
+  eq: string;
+  bcn?: number;
+  dep: string;
+  dest: string;
+  spd?: number;
+  alt: number;
+  rte: string;
+  rmk?: string;
+  raw?: string;
+  isValid?: boolean;
+  craft?: craft;
 }

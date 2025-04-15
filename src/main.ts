@@ -5,15 +5,40 @@ import { FlightPlan } from "@interfaces/flightPlan";
 // Replace the hardcoded flightPlans array with the imported data
 const flightPlans: FlightPlan[] = flightPlansData;
 
+const names = [
+  "Alex",
+  "Bailey",
+  "Charlie",
+  "Dakota",
+  "Emery",
+  "Finley",
+  "Gray",
+  "Harper",
+  "Indigo",
+  "Jordan",
+  "Joss",
+  "Logan",
+  "Morgan",
+  "Nova",
+  "Oakley",
+  "Parker",
+  "Quinn",
+  "Riley",
+  "Skyler",
+  "Taylor",
+];
+
 function getElementSafe(id: string): HTMLElement {
   const el = document.getElementById(id);
+
   if (!el) {
     throw new Error(`Element with id '${id}' not found`);
   }
+
   return el;
 }
 
-function getRandomBCN(): string {
+function getRandomBCN(): number {
   const ranges = [
     [650, 677],
     [2236, 2277],
@@ -23,15 +48,10 @@ function getRandomBCN(): string {
 
   const [min, max] = ranges[Math.floor(Math.random() * ranges.length)];
   const value = Math.floor(Math.random() * (max - min + 1)) + min;
-  return String(value).padStart(4, "0");
+  return value;
 }
 
-function populateInputString(raw: string): void {
-  const inputString = getElementSafe("input-string");
-  inputString.textContent = raw;
-}
-
-function populateFPE(raw: string): void {
+function rawToFlightPlan(raw: string): FlightPlan | undefined {
   const parts = raw.trim().split(/\s{2,}/);
 
   if (parts.length < 6) {
@@ -42,52 +62,52 @@ function populateFPE(raw: string): void {
   const aid = parts[0];
   const typeEq = parts[1].replace(/^[A-Z]\//, "");
   const [typ, eq] = typeEq.split("/");
-  const depDest = parts[3].split(" - ");
-  const alt = parts[4];
+  const [dep, dest] = parts[3].split(" - ");
+  const alt = parseInt(parts[4], 10);
   const rte = parts.slice(5).join(" ");
 
-  const cid = Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;
-  const names = [
-    "Alex",
-    "Bailey",
-    "Charlie",
-    "Dakota",
-    "Emery",
-    "Finley",
-    "Gray",
-    "Harper",
-    "Indigo",
-    "Jordan",
-    "Joss",
-    "Logan",
-    "Morgan",
-    "Nova",
-    "Oakley",
-    "Parker",
-    "Quinn",
-    "Riley",
-    "Skyler",
-    "Taylor",
-  ];
-  const name = names[Math.floor(Math.random() * names.length)];
+  return {
+    aid,
+    typ,
+    alt,
+    rte,
+    eq,
+    dep,
+    dest,
+  } as FlightPlan;
+}
 
-  const rawSpd = Math.floor(Math.random() * (450 - 80 + 1) + 80);
-  const spd = String(Math.round(rawSpd / 5) * 5).padStart(3, "0");
-  const bcn = getRandomBCN();
+function displayFPE(flightPlan: FlightPlan): void {
+  // Populate the flight plan with default values if not provided
+  flightPlan.pilotName ??= names[Math.floor(Math.random() * names.length)];
+  flightPlan.spd ??=
+    Math.round(Math.floor(Math.random() * (450 - 80 + 1) + 80) / 5) * 5; // Speed is always in increments of 5 kts.
+  flightPlan.bcn ??= getRandomBCN();
+  flightPlan.cid ??=
+    Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;
 
-  getElementSafe("fpe-aid-box").textContent = aid;
-  getElementSafe("fpe-typ-box").textContent = typ;
-  getElementSafe("fpe-eq-box").textContent = eq;
-  getElementSafe("fpe-bcn-box").textContent = bcn;
-  getElementSafe("fpe-dep-box").textContent = depDest[0];
-  getElementSafe("fpe-dest-box").textContent = depDest[1];
-  getElementSafe("fpe-alt-box").textContent = alt;
-  getElementSafe("fpe-rte-box").textContent = rte;
-  getElementSafe("fpe-cruiseid-box").textContent = cid.toString();
-  getElementSafe("fpe-spd-box").textContent = spd;
-  getElementSafe(
-    ".fpe-title"
-  ).textContent = `${aid} - ${name} (${cid.toString()})`;
+  getElementSafe("fpe-aid-box").textContent = flightPlan.aid;
+  getElementSafe("fpe-typ-box").textContent = flightPlan.typ;
+  getElementSafe("fpe-eq-box").textContent = flightPlan.eq;
+  getElementSafe("fpe-bcn-box").textContent = String(flightPlan.bcn).padStart(
+    4,
+    "0"
+  );
+  getElementSafe("fpe-dep-box").textContent = flightPlan.dep;
+  getElementSafe("fpe-dest-box").textContent = flightPlan.dest;
+  getElementSafe("fpe-alt-box").textContent = String(flightPlan.alt).padStart(
+    3,
+    "0"
+  );
+  getElementSafe("fpe-rte-box").textContent = flightPlan.rte;
+  getElementSafe("fpe-cruiseid-box").textContent = String(flightPlan.cid);
+  getElementSafe("fpe-spd-box").textContent = String(flightPlan.spd).padStart(
+    3,
+    "0"
+  );
+  getElementSafe(".fpe-title").textContent = `${flightPlan.aid} - ${
+    flightPlan.pilotName
+  } (${flightPlan.cid.toString()})`;
 }
 
 function renderFlightPlanList(): void {
@@ -101,7 +121,7 @@ function renderFlightPlanList(): void {
 
   for (const plan of flightPlans) {
     const li = document.createElement("li");
-    li.textContent = plan.name;
+    li.textContent = `${plan.dep} - ${plan.dest} (${plan.aid})`;
 
     if (plan.isValid) {
       const checkmark = document.createElement("span");
@@ -111,8 +131,7 @@ function renderFlightPlanList(): void {
     }
 
     li.onclick = () => {
-      populateInputString(plan.raw);
-      populateFPE(plan.raw);
+      displayFPE(plan);
     };
 
     container.appendChild(li);
@@ -121,11 +140,25 @@ function renderFlightPlanList(): void {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderFlightPlanList();
-  const result = getElementSafe("screenshot-button");
 
-  result.addEventListener("click", () => {
+  getElementSafe("screenshot-button").addEventListener("click", () => {
     copyFpeToClipboard().catch((err: unknown) => {
       console.error("Error copying to clipboard: ", err);
     });
+  });
+
+  getElementSafe("load-button").addEventListener("click", () => {
+    const inputString = (
+      getElementSafe("input-string") as HTMLInputElement
+    ).value.trim();
+
+    if (!inputString) {
+      return;
+    }
+
+    const flightPlan = rawToFlightPlan(inputString);
+    if (flightPlan) {
+      displayFPE(flightPlan);
+    }
   });
 });
