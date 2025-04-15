@@ -113,7 +113,7 @@
         // Random CID
         const cid = Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;
 
-        // Random SPD: 80–450, rounded to nearest 5, zero-padded
+        // Random SPD: 80-450, rounded to nearest 5, zero-padded
         const rawSpd = Math.floor(Math.random() * (450 - 80 + 1) + 80);
         const spd = String(Math.round(rawSpd / 5) * 5).padStart(3, "0");
         document.getElementById("fpe-spd-box").textContent = spd;
