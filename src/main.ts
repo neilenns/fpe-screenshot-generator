@@ -1,12 +1,6 @@
 import { copyFpeToClipboard } from "./copyFpeToClipboard";
 import flightPlansData from "./flightPlans.json" assert { type: "json" };
-
-interface FlightPlan {
-  id: number;
-  name: string;
-  raw: string;
-  isValid: boolean;
-}
+import { FlightPlan } from "@interfaces/flightPlan";
 
 // Replace the hardcoded flightPlans array with the imported data
 const flightPlans: FlightPlan[] = flightPlansData;
