@@ -8,13 +8,8 @@ interface FlightPlan {
 const flightPlans: FlightPlan[] = [
   {
     id: 1,
-    name: "Dallas",
-    raw: "AAL700  B738/L  1675  6057 KPDX - KDFW  350  WHAMY4 IMB J15 JNC ALS PNH MDANO VKTRY2",
-  },
-  {
-    id: 2,
-    name: "Denver",
-    raw: "UAL123  H/B77W/L  1234  7412 KSFO - KDEN  370  TRUKN2 DVC J28 HBU",
+    name: "KSEA-EGLL",
+    raw: "BAW52  H/B77W/L  1604  KSEA - EGLL  330  ALPSE YDC YXC 5130N11000W 5630N10000W 6030N09000W 6330N08000W 65N070W/M085F330 EPMAN 66N050W 6530N04000W 6430N03000W 63N020W 62N015W RATSU/N0500F330 BARKU ELBUS UL612 LAKEY NUGRA",
   },
 ];
 
@@ -41,7 +36,8 @@ function getRandomBCN(): string {
 
 function populateFPE(raw: string): void {
   const parts = raw.trim().split(/\s{2,}/);
-  if (parts.length < 7) {
+
+  if (parts.length < 6) {
     alert("Input does not contain enough fields.");
     return;
   }
@@ -49,9 +45,9 @@ function populateFPE(raw: string): void {
   const aid = parts[0];
   const typeEq = parts[1].replace(/^[A-Z]\//, "");
   const [typ, eq] = typeEq.split("/");
-  const depDest = parts[4].split(" - ");
-  const alt = parts[5];
-  const rte = parts.slice(6).join(" ");
+  const depDest = parts[3].split(" - ");
+  const alt = parts[4];
+  const rte = parts.slice(5).join(" ");
 
   const cid = Math.floor(Math.random() * (1950000 - 800000 + 1)) + 800000;
   const names = [
@@ -98,7 +94,7 @@ function populateFPE(raw: string): void {
 }
 
 function renderFlightPlanList(): void {
-  const container = document.getElementById("flight-list");
+  const container = document.getElementById("flight-plan-list");
 
   if (!container) {
     return;
