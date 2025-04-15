@@ -1,0 +1,23 @@
+{
+  "name": "fpe-screenshot-generator",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "npm run eslint && npm run markdownlint",
+    "eslint": "eslint src --report-unused-disable-directives --max-warnings 0",
+    "markdownlint": " markdownlint **/*.md -i node_modules/"
+  },
+  "devDependencies": {
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "markdownlint": "^0.37.4",
+    "markdownlint-cli": "^0.44.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.2.0"
+  }
+}
