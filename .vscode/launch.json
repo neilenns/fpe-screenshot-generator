@@ -2,12 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch fpe.html in Edge",
-      "type": "msedge",
+      "name": "Launch client",
       "request": "launch",
-      "url": "http://localhost:8000/index.html",
-      "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "Start Python HTTP server"
+      "type": "msedge",
+      "runtimeExecutable": "dev",
+      "url": "http://localhost:4000",
+      "webRoot": "${workspaceFolder}/client",
+      "skipFiles": ["${workspaceFolder}/src/node_modules/**/*.js"],
+      "preLaunchTask": "Run development server"
     }
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    ".gitignore": ".gitattributes",
+    "README.md": "DEVELOPMENT.md"
+  },
+  "cSpell.words": [
+    "cruiseid",
+    "fontawesome",
+    "Fonticons",
+    "highgate",
+    "KDEN",
+    "KDFW",
+    "KPDX",
+    "KSFO",
+    "MDANO",
+    "Skyler",
+    "TRUKN",
+    "VKTRY",
+    "WHAMY"
+  ]
+}

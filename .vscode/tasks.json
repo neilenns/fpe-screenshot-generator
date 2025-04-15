@@ -2,27 +2,37 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start Python HTTP server",
-      "type": "shell",
-      "command": "python",
-      "args": ["-m", "http.server", "8000"],
-      "isBackground": true,
-      "problemMatcher": {
-        "pattern": [
-          {
-            "regexp": ".",
-            "file": 1,
-            "location": 2,
-            "message": 3
-          }
-        ],
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "Serving HTTP on",
-          "endsPattern": "Serving HTTP on"
-        }
+      "type": "npm",
+      "script": "lint",
+      "label": "Lint",
+      "options": {
+        "cwd": "${workspaceFolder}"
       },
-      "group": "build"
+      "problemMatcher": [
+        "$vite-eslint-visualstudio",
+        "$vite-esbuild",
+        "$eslint-stylish"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "label": "Run development server",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "base": "$vite-esbuild",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "> vite",
+            "endsPattern": "ready"
+          }
+        }
+      ]
     }
   ]
 }
