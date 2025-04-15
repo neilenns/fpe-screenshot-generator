@@ -13,6 +13,10 @@
   padding: 0;
 }
 
+.flight-plan-list li {
+  cursor: pointer;
+}
+
 .main-content {
   flex-grow: 1;
   padding: 1rem;
