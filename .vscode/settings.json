@@ -1,8 +1,18 @@
 {
   "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.patterns": {
-    ".gitignore": ".gitattributes",
-    "README.md": "DEVELOPMENT.md"
+  "files.exclude": {
+    "**/.nvmrc": true,
+    "**/.prettierrc": true,
+    "**/.eslintrc.json": true,
+    "**/vite.config.ts": true,
+    "**/.coderabbit.yml": true,
+    "**/eslint.config.js": true,
+    "**/.gitignore": true,
+    "**/.gitattributes": true,
+    "**/package-lock.json": true,
+    "**/renovate.json": true,
+    "**/tsconfig.json": true,
+    "**/node_modules": true
   },
   "cSpell.words": [
     "checkmark",
