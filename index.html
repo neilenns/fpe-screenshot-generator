@@ -5,27 +5,25 @@
     <title>FPE Test Page</title>
     <link rel="stylesheet" href="src/fpe.css" />
     <link rel="stylesheet" href="https://use.typekit.net/vbh7vdi.css" />
+    <link rel="stylesheet" href="src/main.css" />
     <script src="src/main.ts"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   </head>
   <body>
-    <div id="app-container" style="display: flex">
+    <div id="app-container" class="app-container">
       <!-- Sidebar -->
-      <div
-        id="sidebar"
-        style="width: 250px; padding: 1rem; border-right: 1px solid #ccc"
-      >
+      <div id="sidebar" class="sidebar">
         <h2>Flight Plans</h2>
-        <ul id="flight-plan-list" style="list-style: none; padding: 0"></ul>
+        <ul id="flight-plan-list" class="flight-plan-list"></ul>
       </div>
 
       <!-- Main content -->
-      <div id="main-content" style="flex-grow: 1; padding: 1rem">
+      <div id="main-content" class="main-content">
         <h2>Flight Plan Details</h2>
         <div id="flight-plan-details">
           <p>Select a flight plan from the list to see its details.</p>
         </div>
-        <div id="input-area">
+        <div id="input-area" class="input-area">
           <textarea
             id="input-string"
             placeholder="Paste the flight plan string here..."
@@ -54,7 +52,7 @@
               <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
               <path
                 fill="#fff"
-                d="M142.9 142.9c-17.5 17.5-30.1 38-37.8 59.8-5.9 16.7-24.2 25.4-40.8 19.5S38.9 198 44.8 181.4c10.8-30.7 28.4-59.4 52.8-83.8 87.2-87.2 228.3-87.5 315.8-1L455 55c6.9-6.9 17.2-8.9 26.2-5.2S496 62.3 496 72v128c0 13.3-10.7 24-24 24H344c-9.7 0-18.5-5.8-22.2-14.8s-1.7-19.3 5.2-26.2l41.1-41.1c-62.6-61.5-163.1-61.2-225.3 1zM16 312c0-13.3 10.7-24 24-24h128c9.7 0 18.5 5.8 22.2 14.8s1.7 19.3-5.2 26.2l-41.1 41.1c62.6 61.5 163.1 61.2 225.3-1 17.5-17.5 30.1-38 37.8-59.8 5.9-16.7 24.2-25.4 40.8-19.5s25.4 24.2 19.5 40.8c-10.8 30.6-28.4 59.3-52.9 83.8-87.2 87.2-228.3 87.5-315.8 1L57 457c-6.9 6.9-17.2 8.9-26.2 5.2S16 449.7 16 440V312.1z"
+                d="M142.9 142.9c-17.5 17.5-30.1 38-37.8 59.8-5.9 16.7-24.2 25.4-40.8 19.5S38.9 198 44.8 181.4c10.8-30.7 28.4-59.4 52.8-83.8 87.2-87.2 228.3-87.5 315.8-1L455 55c6.9-6.9 17.2-8.9 26.2-5.2S496 62.3 496 72v128c0 13.3-10.7 24-24 24H344c-9.7 0-18.5-5.8-22.2-14.8s-1.7-19.3 5.2-26.2l41.1-41.1c-62.6-61.5-163.1-61.2-225.3 1zM16 312c0-13.3 10.7-24 24-24h128c9.7 0 18.5-5.8 22.2 14.8s1.7 19.3-5.2 26.2l-41.1 41.1c62.6 61.5 163.1 61.2 225.3-1 17.5-17.5 30.1-38 37.8-59.8 5.9-16.7 24.2-25.4 40.8-19.5s25.4 24.2 19.5 40.8c-10.8 30.6-28.4 59.3-52.9 83.8-87.2 87.2-228.3 87.5-315.8 1L57 457c-6.9 6.9-17.2 8.9-26.2 5.2S16 449.7 16 440V312.1z"
               />
             </svg>
           </div>
