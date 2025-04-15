@@ -1,17 +1,14 @@
+import flightPlansData from "./flightPlans.json" assert { type: "json" };
+
 interface FlightPlan {
   id: number;
   name: string;
   raw: string;
+  isValid: boolean;
 }
 
-// Example flight plans (could come from a server or static JSON)
-const flightPlans: FlightPlan[] = [
-  {
-    id: 1,
-    name: "KSEA-EGLL",
-    raw: "BAW52  H/B77W/L  1604  KSEA - EGLL  330  ALPSE YDC YXC 5130N11000W 5630N10000W 6030N09000W 6330N08000W 65N070W/M085F330 EPMAN 66N050W 6530N04000W 6430N03000W 63N020W 62N015W RATSU/N0500F330 BARKU ELBUS UL612 LAKEY NUGRA",
-  },
-];
+// Replace the hardcoded flightPlans array with the imported data
+const flightPlans: FlightPlan[] = flightPlansData;
 
 function getElementSafe(id: string): HTMLElement {
   const el = document.getElementById(id);
@@ -32,6 +29,11 @@ function getRandomBCN(): string {
   const [min, max] = ranges[Math.floor(Math.random() * ranges.length)];
   const value = Math.floor(Math.random() * (max - min + 1)) + min;
   return String(value).padStart(4, "0");
+}
+
+function populateInputString(raw: string): void {
+  const inputString = getElementSafe("input-string");
+  inputString.textContent = raw;
 }
 
 function populateFPE(raw: string): void {
@@ -105,9 +107,19 @@ function renderFlightPlanList(): void {
   for (const plan of flightPlans) {
     const li = document.createElement("li");
     li.textContent = plan.name;
+
+    if (plan.isValid) {
+      const checkmark = document.createElement("span");
+      checkmark.textContent = "✔";
+      checkmark.classList.add("valid-checkmark");
+      li.appendChild(checkmark);
+    }
+
     li.onclick = () => {
+      populateInputString(plan.raw);
       populateFPE(plan.raw);
     };
+
     container.appendChild(li);
   }
 }

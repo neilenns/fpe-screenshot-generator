@@ -27,3 +27,8 @@
   height: 100px;
   margin-bottom: 10px;
 }
+
+.valid-checkmark {
+  color: green;
+  margin-left: 8px;
+}
